@@ -1,9 +1,5 @@
 import SearchSick from '../components/search/SearchSick';
-import {
-  MainContainer,
-  TextContainer,
-  TextSearchContainer,
-} from '../styles/LayOutStyle';
+import { MainContainer, TextContainer, TextSearchContainer } from '../styles/LayOutStyle';
 
 function Main() {
   return (

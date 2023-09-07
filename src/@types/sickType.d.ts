@@ -1,13 +1,13 @@
 declare module 'sickType' {
-	type SickData = {
-		sickCd: string;
-		sickNm: string;
-	};
+  type SickData = {
+    sickCd: string;
+    sickNm: string;
+  };
 
-	type SickListData = SickData[];
+  type SickListData = SickData[];
 
-	type KeywordQueryData = {
-		query: string;
-		useCache?: boolean;
-	};
+  type KeywordQueryData = {
+    query: string;
+    useCache?: boolean;
+  };
 }

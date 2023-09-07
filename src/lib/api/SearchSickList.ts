@@ -13,10 +13,7 @@ export class SearchSickList {
     this.httpClient = httpClient;
   }
 
-  async getSickList(
-    query: string,
-    cacheResponse: boolean
-  ): Promise<GetSickListResponseType> {
+  async getSickList(query: string, cacheResponse: boolean): Promise<GetSickListResponseType> {
     try {
       if (cacheResponse) {
         // 캐시 사용 시 로컬 캐시에서 데이터를 읽어옴
