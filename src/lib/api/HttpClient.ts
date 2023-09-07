@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
+const SICK_URL = process.env.REACT_APP_BASE_URL;
+
 interface HttpClientInterface {
   getData(endpoint: string, options?: AxiosRequestConfig): Promise<AxiosResponse>;
 }
@@ -7,9 +9,9 @@ interface HttpClientInterface {
 export class HttpClient implements HttpClientInterface {
   #baseURL: string;
 
-  constructor() {
-    this.#baseURL = `http://localhost:4000/`;
-  }
+	constructor() {
+		this.#baseURL = `${SICK_URL}`;
+	}
 
   async getData(endpoint: string, options: AxiosRequestConfig = {}): Promise<AxiosResponse> {
     try {
