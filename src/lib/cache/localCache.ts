@@ -6,7 +6,7 @@ const localCache = (() => {
   const writeToCache = async (
     key: string,
     data: SickData[],
-    EXPIRE_TIME: number = 5 * 60 * 1000
+    EXPIRE_TIME: number = 5 * 60 * 1000,
   ) => {
     const cache = await caches.open(cacheName);
     const expired = new Date().getTime() + EXPIRE_TIME;

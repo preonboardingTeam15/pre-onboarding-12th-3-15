@@ -8,20 +8,18 @@ import NotFound from './pages/NotFound';
 import { GlobalStyle } from './styles/GlobalStyle';
 
 const router = createBrowserRouter([
-	{
-		path: '/',
-		element: <App />,
-		errorElement: <NotFound />,
-		children: [{ index: true, path: '/', element: <Main /> }],
-	},
+  {
+    path: '/',
+    element: <App />,
+    errorElement: <NotFound />,
+    children: [{ index: true, path: '/', element: <Main /> }],
+  },
 ]);
 
-const root = ReactDOM.createRoot(
-	document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-	<React.StrictMode>
-		<GlobalStyle />
-		<RouterProvider router={router} />
-	</React.StrictMode>
+  <React.StrictMode>
+    <GlobalStyle />
+    <RouterProvider router={router} />
+  </React.StrictMode>,
 );

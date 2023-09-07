@@ -1,14 +1,5 @@
-import {
-  SetStateAction,
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-} from 'react';
-import {
-  SearchSickList,
-  GetSickListResponseType,
-} from '../../lib/api/SearchSickList';
+import { SetStateAction, useState, useEffect, useCallback, useRef } from 'react';
+import { SearchSickList, GetSickListResponseType } from '../../lib/api/SearchSickList';
 import { HttpClient } from '../../lib/api/HttpClient';
 import { useDebouncedSearch } from '../../context/DebouncedSearchContext';
 import SearchBar from './SearchBar';
@@ -30,15 +21,12 @@ const RECOMMENDATION_NUMBER = 10;
 
 const SearchSick = ({ useCache: initialUseCache }: SearchSickProps) => {
   const { query, setQuery, debouncedQuery } = useDebouncedSearch();
-  const [sickList, setSickList] = useState<GetSickListResponseType | null>(
-    null
-  );
+  const [sickList, setSickList] = useState<GetSickListResponseType | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchRef = useRef(null);
 
   const searchContainerRef = useRef(null);
-  const [isSearchContainerFocused, setIsSearchContainerFocused] =
-    useState(false);
+  const [isSearchContainerFocused, setIsSearchContainerFocused] = useState(false);
 
   // useCache 상태값 바꾸기 위함
   const [useCache, setUseCache] = useState(initialUseCache);
@@ -48,8 +36,7 @@ const SearchSick = ({ useCache: initialUseCache }: SearchSickProps) => {
       ? {
           response: sickList.response.filter(
             ({ sickNm }) =>
-              debouncedQuery.toLowerCase() ===
-              sickNm.slice(0, debouncedQuery.length).toLowerCase()
+              debouncedQuery.toLowerCase() === sickNm.slice(0, debouncedQuery.length).toLowerCase(),
           ),
         }
       : null
@@ -71,10 +58,7 @@ const SearchSick = ({ useCache: initialUseCache }: SearchSickProps) => {
         }
 
         // 없으면 캐시 스토리지에 저장
-        const result = await searchSickList.getSickList(
-          debouncedQuery,
-          useCache
-        );
+        const result = await searchSickList.getSickList(debouncedQuery, useCache);
         setSickList(result);
       } catch (error) {
         console.error('API 호출 오류:', error);
@@ -107,7 +91,7 @@ const SearchSick = ({ useCache: initialUseCache }: SearchSickProps) => {
             </strong>
           ) : (
             part
-          )
+          ),
         )}
       </>
     );
@@ -126,7 +110,7 @@ const SearchSick = ({ useCache: initialUseCache }: SearchSickProps) => {
   const getRecommendations = () => {
     return (
       localCache.readFromCache('recommendations') ||
-      filteredSickList?.response?.map((sick) => ({
+      filteredSickList?.response?.map(sick => ({
         sickCd: sick.sickCd,
         sickNm: sick.sickNm,
       })) ||
@@ -173,9 +157,7 @@ const SearchSick = ({ useCache: initialUseCache }: SearchSickProps) => {
           <RecommendedSearch
             recommendations={
               filteredSickList
-                ? filteredSickList.response
-                    .map((sick) => sick.sickNm)
-                    .slice(0, RECOMMENDATION_NUMBER)
+                ? filteredSickList.response.map(sick => sick.sickNm).slice(0, RECOMMENDATION_NUMBER)
                 : []
             }
             highlightText={highlightText}
