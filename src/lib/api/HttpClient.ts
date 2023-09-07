@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
+const SICK_URL = process.env.REACT_APP_BASE_URL;
+
 interface HttpClientInterface {
 	getData(
 		endpoint: string,
@@ -11,7 +13,7 @@ export class HttpClient implements HttpClientInterface {
 	#baseURL: string;
 
 	constructor() {
-		this.#baseURL = `http://localhost:4000/`;
+		this.#baseURL = `${SICK_URL}`;
 	}
 
 	async getData(
