@@ -1,36 +1,48 @@
 import { SickData } from 'sickType';
 
+const cacheName = 'suggestion-cache';
+
 const localCache = (() => {
-	const writeToCache = (key: string, data: SickData[]) => {
-		const timestampInMinutes = Math.floor(new Date().getMinutes());
-		const storageValue = {
-			data,
-			timestamp: timestampInMinutes,
-		};
+  const writeToCache = async (
+    key: string,
+    data: SickData[],
+    EXPIRE_TIME: number = 5 * 60 * 1000
+  ) => {
+    const cache = await caches.open(cacheName);
+    const expired = new Date().getTime() + EXPIRE_TIME;
 
-		localStorage.setItem(key, JSON.stringify(storageValue));
-	};
+    const request = new Request(key);
+    const responseData = {
+      data,
+      expired,
+    };
 
-	const readFromCache = (key: string) => {
-		const storageValueString = localStorage.getItem(key);
-		if (!storageValueString) return [];
+    const response = new Response(JSON.stringify(responseData));
 
-		const storageValue = JSON.parse(storageValueString);
+    cache.put(request, response);
+  };
 
-		if (new Date().getMinutes() - storageValue.timestampInMinutes > EXPIRE_TIME) {
-			localStorage.removeItem(key);
-			return [];
-		}
+  const readFromCache = async (key: string) => {
+    const cache = await caches.open(cacheName);
+    const response = await cache.match(key);
 
-		return storageValue.recommendations || [];
-	};
+    if (!response) return [];
 
-	return {
-		writeToCache,
-		readFromCache,
-	};
+    const responseData = await response.json();
+    const now = new Date().getTime();
+
+    if (now > responseData.expired) {
+      cache.delete(key);
+      return [];
+    }
+
+    return responseData.data;
+  };
+
+  return {
+    writeToCache,
+    readFromCache,
+  };
 })();
 
 export default localCache;
-
-const EXPIRE_TIME = 5 * 60 * 1000; // 5분
