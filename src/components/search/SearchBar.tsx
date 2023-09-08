@@ -1,5 +1,6 @@
-import React, { SetStateAction, useCallback } from 'react';
+import React, { SetStateAction, useCallback, useEffect } from 'react';
 import { StyledInput } from '../../styles/SearchBar';
+import useKeyPress from '../../hooks/useKeyPress';
 
 interface SearchBarProps {
   query: string;
@@ -14,6 +15,14 @@ const SearchBar: React.FC<SearchBarProps> = React.memo(({ query, setQuery, onCli
     },
     [setQuery],
   );
+
+  const escPressed = useKeyPress('Escape');
+
+  useEffect(() => {
+    if (escPressed) {
+      setQuery('');
+    }
+  }, [escPressed]);
 
   return (
     <>
