@@ -14,11 +14,15 @@ const RecommendedSearch: React.FC<RecommendationsProps> = ({ recommendations }) 
   const listRef = useRef<HTMLUListElement>(null);
   const upArrowPressed = useKeyPress('ArrowUp');
   const downArrowPressed = useKeyPress('ArrowDown');
-  const { query, debouncedQuery } = useDebouncedSearch();
+  const enterPressed = useKeyPress('Enter');
+
+  const { query, debouncedQuery, setQuery } = useDebouncedSearch();
 
   useEffect(() => {
-    setSelectedItem(-1);
-  }, [query, debouncedQuery]);
+    if (enterPressed && selectedItem !== -1) {
+      setQuery(recommendations[selectedItem]);
+    }
+  }, [enterPressed, selectedItem, recommendations, setQuery]);
 
   const handleSelectItem = useCallback(
     (index: number) => {
@@ -26,6 +30,10 @@ const RecommendedSearch: React.FC<RecommendationsProps> = ({ recommendations }) 
     },
     [setSelectedItem],
   );
+
+  useEffect(() => {
+    setSelectedItem(-1);
+  }, [query, debouncedQuery]);
 
   // 위쪽 화살표 키를 누를 때 이전 항목 선택
   useEffect(() => {
