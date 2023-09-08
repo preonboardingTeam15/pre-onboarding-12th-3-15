@@ -31,6 +31,7 @@ const RecommendedSearch: React.FC<RecommendationsProps> = ({ recommendations }) 
     [setSelectedItem],
   );
 
+  // 새로운 검색어일때 순서를 -1로 변경
   useEffect(() => {
     setSelectedItem(-1);
   }, [query, debouncedQuery]);
@@ -83,6 +84,7 @@ const RecommendedSearch: React.FC<RecommendationsProps> = ({ recommendations }) 
               key={index}
               className={selectedItem === index ? 'selected' : ''}
               onClick={() => handleSelectItem(index)}
+              onMouseOver={() => setSelectedItem(index)}
             >
               {highlightText(recommendation)}
             </li>
