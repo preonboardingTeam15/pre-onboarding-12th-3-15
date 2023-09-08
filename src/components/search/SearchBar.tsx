@@ -1,6 +1,7 @@
 import React, { SetStateAction, useCallback, useEffect } from 'react';
 import { StyledInput } from '../../styles/SearchBar';
 import useKeyPress from '../../hooks/useKeyPress';
+import { useDebouncedSearch } from '../../context/DebouncedSearchContext';
 
 interface SearchBarProps {
   query: string;
@@ -15,21 +16,25 @@ const SearchBar: React.FC<SearchBarProps> = React.memo(({ query, setQuery, onCli
     },
     [setQuery],
   );
-
+  const { tempQuery, setTempQuery } = useDebouncedSearch();
   const escPressed = useKeyPress('Escape');
 
   useEffect(() => {
     if (escPressed) {
-      setQuery('');
+      if (tempQuery) {
+        setTempQuery('');
+      } else {
+        setQuery('');
+      }
     }
-  }, [escPressed]);
+  }, [escPressed, tempQuery]);
 
   return (
     <>
       <StyledInput
         type="text"
         placeholder="질환명을 입력해주세요"
-        value={query}
+        value={tempQuery || query}
         onChange={memoizedHandleChange}
         onClick={onClick}
       />
