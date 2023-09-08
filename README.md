@@ -289,7 +289,7 @@ npm start
 
 #### 구현
 
-- **추후 업데이트(현재 Best Practice)**
-- 위, 아래 키보드 입력시 index -1, +1
-- 마우스 오버시 index 변경
-- index의 배경색 변경
+- addEventListener 를 이용하여 위, 아래 방향키 입력을 감지합니다.
+- 키보드 입력이 감지되면 selectedItem의 값을 방향키에 따라 -1, +1 합니다.
+- 추천 검색어 배열에서 나온 리스트들의 className을 index와 selectedItem를 비교하여 같을경우 'selected' 로 설정합니다.
+- 'selected' 클래스에 스타일을 줌으로써, 검색어들의 이동이 가능합니다.
