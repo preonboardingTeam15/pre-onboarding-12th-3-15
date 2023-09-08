@@ -5,6 +5,8 @@ interface DebouncedSearchContextType {
   query: string;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
   debouncedQuery: string;
+  tempQuery: string;
+  setTempQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // Context 생성
@@ -31,7 +33,7 @@ export const DebouncedSearchProvider: React.FC<DebouncedSearchProviderProps> = (
   // 상태와 디바운스 타이머 설정
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
-
+  const [tempQuery, setTempQuery] = useState('');
   useEffect(() => {
     // 디바운스 타이머 설정
     const debounceTimer = setTimeout(() => {
@@ -50,6 +52,8 @@ export const DebouncedSearchProvider: React.FC<DebouncedSearchProviderProps> = (
     query,
     setQuery,
     debouncedQuery,
+    tempQuery,
+    setTempQuery,
   };
 
   return (

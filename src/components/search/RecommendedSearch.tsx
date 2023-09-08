@@ -17,11 +17,14 @@ const RecommendedSearch: React.FC<RecommendationsProps> = ({ recommendations }) 
   const downArrowPressed = useKeyPress('ArrowDown');
   const enterPressed = useKeyPress('Enter');
 
-  const { query, debouncedQuery, setQuery } = useDebouncedSearch();
+  const { query, debouncedQuery, setQuery, setTempQuery } = useDebouncedSearch();
 
   useEffect(() => {
     if (enterPressed && selectedItem !== -1) {
       setQuery(recommendations[selectedItem]);
+      setTempQuery('');
+    } else if (selectedItem !== -1) {
+      setTempQuery(recommendations[selectedItem]); // 선택 항목이 바뀔 때마다 임시 쿼리 업데이트
     }
   }, [enterPressed, selectedItem, recommendations, setQuery]);
 
