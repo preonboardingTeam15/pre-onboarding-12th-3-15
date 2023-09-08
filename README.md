@@ -157,39 +157,44 @@ npm start
 ```bash
 📦src
  ┣ 📂@types
- ┃ ┣ 📜sickType.d.ts
+ ┃ ┗ 📜sickType.d.ts
  ┣ 📂components
- ┃ ┗ 📂commons
+ ┃ ┣ 📂commons
  ┃ ┃ ┗ 📜SearchButton.tsx
  ┃ ┗ 📂search
- ┃ ┃ ┗ 📜RecommendedSearch.tsx
- ┃ ┃ ┗ 📜SearchBar.tsx
+ ┃ ┃ ┣ 📜HighlightText.tsx
+ ┃ ┃ ┣ 📜RecommendedSearch.tsx
+ ┃ ┃ ┣ 📜SearchBar.tsx
+ ┃ ┃ ┣ 📜SearchInput.tsx
  ┃ ┃ ┗ 📜SearchSick.tsx
  ┣ 📂context
  ┃ ┗ 📜DebouncedSearchContext.tsx
  ┣ 📂hooks
- ┃ ┗ 📜useKeyPress.tsx
+ ┃ ┣ 📜useFetchFromApi.ts
+ ┃ ┣ 📜useFetchFromCache.ts
+ ┃ ┣ 📜useFetchGate.ts
+ ┃ ┣ 📜useKeyPress.tsx
  ┃ ┗ 📜useOutsideClick.tsx
  ┣ 📂lib
  ┃ ┣ 📂api
- ┃ ┃ ┗ 📜HttpClient.tsx
- ┃ ┃ ┗ 📜SearchSickList.tsx
- ┃ ┣ 📂cache
- ┃ ┃ ┗ 📜localCache.tsx
+ ┃ ┃ ┣ 📜HttpClient.ts
+ ┃ ┃ ┗ 📜SearchSickList.ts
+ ┃ ┗ 📂cache
+ ┃ ┃ ┗ 📜localCache.ts
  ┣ 📂pages
- ┃ ┃ ┗ 📜Main.tsx
- ┃ ┃ ┗ 📜NotFound.tsx
+ ┃ ┣ 📜Main.tsx
+ ┃ ┗ 📜NotFound.tsx
  ┣ 📂styles
- ┃ ┃ ┗ 📜Button.ts
- ┃ ┃ ┗ 📜GlobalStyle.ts
- ┃ ┃ ┗ 📜LayOutStyle.ts
- ┃ ┃ ┗ 📜RecommendedStyle.ts
- ┃ ┃ ┗ 📜SearchBar.ts
+ ┃ ┣ 📜Button.ts
+ ┃ ┣ 📜GlobalStyle.ts
+ ┃ ┣ 📜LayOutStyle.ts
+ ┃ ┣ 📜RecommendedStyle.ts
+ ┃ ┗ 📜SearchBar.ts
  ┣ 📜App.css
  ┣ 📜App.tsx
  ┣ 📜index.css
  ┣ 📜index.tsx
- ┣ 📜react-app-env.d.ts
+ ┗ 📜react-app-env.d.ts
 ```
 
 </br>
