@@ -31,15 +31,14 @@ const SearchSick = ({ useCache: initialUseCache }: SearchSickProps) => {
   // useCache 상태값 바꾸기 위함
   const [useCache, setUseCache] = useState(initialUseCache);
 
+  const filterSickList = (list: SickData[], query: string) => {
+    return list.filter(
+      ({ sickNm }) => query.toLowerCase() === sickNm.slice(0, query.length).toLowerCase(),
+    );
+  };
+
   const filteredSickList = debouncedQuery
-    ? sickList
-      ? {
-          response: sickList.response.filter(
-            ({ sickNm }) =>
-              debouncedQuery.toLowerCase() === sickNm.slice(0, debouncedQuery.length).toLowerCase(),
-          ),
-        }
-      : null
+    ? { response: filterSickList(sickList?.response || [], debouncedQuery) }
     : null;
 
   const fetchFromCache = async (keyword: string) => {
