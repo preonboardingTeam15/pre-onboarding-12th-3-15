@@ -9,9 +9,9 @@ interface HttpClientInterface {
 export class HttpClient implements HttpClientInterface {
   #baseURL: string;
 
-	constructor() {
-		this.#baseURL = `${SICK_URL}`;
-	}
+  constructor() {
+    this.#baseURL = `${SICK_URL}`;
+  }
 
   async getData(endpoint: string, options: AxiosRequestConfig = {}): Promise<AxiosResponse> {
     try {
