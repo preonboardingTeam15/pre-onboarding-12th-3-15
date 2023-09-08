@@ -26,7 +26,7 @@ interface DebouncedSearchProviderProps {
   children: ReactNode;
 }
 
-//자음 모음 검사를 위한 정규식
+// 자음 모음 검사를 위한 정규식
 const testWord = /[ㄱ-ㅎㅏ-ㅣ]/;
 
 export const DebouncedSearchProvider: React.FC<DebouncedSearchProviderProps> = ({ children }) => {
@@ -34,6 +34,7 @@ export const DebouncedSearchProvider: React.FC<DebouncedSearchProviderProps> = (
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const [tempQuery, setTempQuery] = useState('');
+
   useEffect(() => {
     // 디바운스 타이머 설정
     const debounceTimer = setTimeout(() => {

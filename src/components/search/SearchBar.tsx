@@ -11,6 +11,7 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = React.memo(({ query, setQuery, onClick }) => {
   const { tempQuery, setTempQuery } = useDebouncedSearch();
+
   const memoizedHandleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setQuery(e.target.value);
@@ -33,7 +34,7 @@ const SearchBar: React.FC<SearchBarProps> = React.memo(({ query, setQuery, onCli
       <StyledInput
         type="text"
         placeholder="질환명을 입력해주세요"
-        value={tempQuery || query}
+        value={tempQuery || query || ''}
         onChange={memoizedHandleChange}
         onClick={onClick}
       />

@@ -19,15 +19,6 @@ const RecommendedSearch: React.FC<RecommendationsProps> = ({ recommendations }) 
 
   const { query, debouncedQuery, setQuery, setTempQuery } = useDebouncedSearch();
 
-  // useEffect(() => {
-  //   if (enterPressed && selectedItem !== -1) {
-  //     setQuery(recommendations[selectedItem]);
-  //     setTempQuery('');
-  //   } else if (selectedItem !== -1) {
-  //     setTempQuery(recommendations[selectedItem]); // 선택 항목이 바뀔 때마다 임시 쿼리 업데이트
-  //   }
-  // }, [enterPressed, selectedItem, recommendations, setQuery]);
-
   useEffect(() => {
     if (enterPressed) {
       if (selectedItem !== -1) {
@@ -74,6 +65,7 @@ const RecommendedSearch: React.FC<RecommendationsProps> = ({ recommendations }) 
   const highlightText = (text: string) => {
     const escapedQuery = debouncedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // 이스케이프 처리
     const parts = text.split(new RegExp(`(${escapedQuery})`, 'giu'));
+
     return (
       <>
         {parts.map((part, index) =>
