@@ -262,13 +262,13 @@ npm start
 
 #### 구현
 
-- **추후 업데이트(현재 Best Practice)**
-- input value가 변경 시 useEffect로 감지, setTimeout으로 0.3초 뒤에 API 호출
-  setTimeout 도중 다시 이벤트 발생하면 clearTimeout으로 이전 setTImeout 제거하고 다시 0.3초 setTimeout
-  let getTimeout: NodeJS.Timer | null = null;
-  if (getTimeout) clearTimeout(getTimeout);
-  getTimeout = setTimeout(() => { // api 호출 },debounceTime)
-  완성형이 아닌 자음 혹은 모음이 있을 시 정규식으로 검사 후 api 호출하지 않음
+#### **Best Practice**
+
+- setTimeout을 사용해 함수 호출까지 디바운스 타임을 가집니다.
+  - query 값이 새롭게 바뀔 시 setTimeout을 이용해 query가 debouncedQuery에 전달되어 API 호출이 되기까지 350ms의 디바운스 타임을 넣음으로서 연속된 입력 시 각 입력에 API를 호출하지 않도록 했습니다.
+
+- 정규식 `/[ㄱ-ㅎㅏ-ㅣ]/`을 사용해 한글 자음 혹은 모음이 존재하는지 검사합니다.
+  - 입력된 query에 완성형이 아닌 자음 혹은 모음이 존재한다면 잘못된 값(오타 혹은 입력 중 중단)으로 판단해 추천 검색어를 가져오지 않습니다.
 
 </br>
 
