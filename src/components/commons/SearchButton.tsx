@@ -1,9 +1,13 @@
 import { SearchButtonContainer, StyledBiSearch } from '../../styles/Button';
 
-function Button() {
+interface ButtonProps {
+  onClick?: () => void;
+}
+
+function Button({ onClick }: ButtonProps) {
   return (
     <SearchButtonContainer>
-      <StyledBiSearch />
+      <StyledBiSearch onClick={onClick} />
     </SearchButtonContainer>
   );
 }

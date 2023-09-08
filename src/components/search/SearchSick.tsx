@@ -1,16 +1,13 @@
-import { SetStateAction, useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { SearchSickList, GetSickListResponseType } from '../../lib/api/SearchSickList';
 import { HttpClient } from '../../lib/api/HttpClient';
 import { useDebouncedSearch } from '../../context/DebouncedSearchContext';
-import SearchBar from './SearchBar';
-import { SearchInputContainer } from '../../styles/SearchBar';
 import { RecommendedContainer } from '../../styles/RecommendedStyle';
-import SearchButton from '../commons/SearchButton';
 import RecommendedSearch from './RecommendedSearch';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
-import { CloseButton, StyledAiFillCloseCircle } from '../../styles/Button';
 import { KeywordQueryData, SickData } from 'sickType';
 import localCache from '../../lib/cache/localCache';
+import SearchInput from './SearchInput';
 
 interface SearchSickProps extends KeywordQueryData {
   useCache: boolean;
@@ -91,11 +88,6 @@ const SearchSick = ({ useCache: initialUseCache }: SearchSickProps) => {
     setQuery('');
   };
 
-  const handleChange = (e: { target: { value: SetStateAction<string> } }) => {
-    const newQuery = e.target.value;
-    setQuery(newQuery);
-  };
-
   const highlightText = (text: string) => {
     const parts = text.split(new RegExp(`(${debouncedQuery})`, 'giu'));
     return (
@@ -122,51 +114,17 @@ const SearchSick = ({ useCache: initialUseCache }: SearchSickProps) => {
     handler: closeSearch,
   });
 
-  // 'recommendations' 값을 가져오는 함수
-  const getRecommendations = () => {
-    return (
-      localCache.readFromCache('recommendations') ||
-      filteredSickList?.response?.map(sick => ({
-        sickCd: sick.sickCd,
-        sickNm: sick.sickNm,
-      })) ||
-      []
-    );
-  };
-
   return (
     <div ref={searchRef}>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          position: 'relative',
-        }}
-      >
-        <SearchInputContainer
-          ref={searchContainerRef}
-          onFocus={() => setIsSearchContainerFocused(true)}
-          onBlur={() => setIsSearchContainerFocused(false)}
-          style={{
-            border: isSearchContainerFocused ? 'solid 2px #007be9' : '',
-          }}
-        >
-          <SearchBar
-            query={query}
-            setQuery={setQuery}
-            onClick={() => setIsSearchOpen(true)}
-            handleChange={handleChange}
-          />
-        </SearchInputContainer>
-
-        <CloseButton onClick={cancelSearch}>
-          <StyledAiFillCloseCircle />
-        </CloseButton>
-
-        <SearchButton />
-      </div>
+      <SearchInput
+        query={query}
+        setQuery={setQuery}
+        setIsSearchOpen={setIsSearchOpen}
+        isSearchContainerFocused={isSearchContainerFocused}
+        setIsSearchContainerFocused={setIsSearchContainerFocused}
+        cancelSearch={cancelSearch}
+        searchContainerRef={searchContainerRef}
+      />
 
       {isSearchOpen && (
         <RecommendedContainer>
