@@ -5,16 +5,18 @@ function useKeyPress<T extends string>(targetKey: T) {
   const [keyPressed, setKeyPressed] = useState<boolean>(false);
 
   // 키가 눌렸을 때 실행되는 이벤트 핸들러 함수
-  function downHandler({ key }: KeyboardEvent) {
-    if (targetKey.includes(key)) {
+  function downHandler(event: KeyboardEvent) {
+    if (targetKey.includes(event.key)) {
       setKeyPressed(true);
+      event.preventDefault(); // 기본 동작 막기
     }
   }
 
   // 키가 떼졌을 때 실행되는 이벤트 핸들러 함수
-  const upHandler = ({ key }: KeyboardEvent) => {
-    if (targetKey.includes(key)) {
+  const upHandler = (event: KeyboardEvent) => {
+    if (targetKey.includes(event.key)) {
       setKeyPressed(false);
+      event.preventDefault(); // 기본 동작 막기
     }
   };
 

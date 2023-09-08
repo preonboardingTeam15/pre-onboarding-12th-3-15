@@ -16,6 +16,10 @@ const RecommendedSearch: React.FC<RecommendationsProps> = ({ recommendations }) 
   const downArrowPressed = useKeyPress('ArrowDown');
   const { query, debouncedQuery } = useDebouncedSearch();
 
+  useEffect(() => {
+    setSelectedItem(-1);
+  }, [query, debouncedQuery]);
+
   const handleSelectItem = useCallback(
     (index: number) => {
       setSelectedItem(index);
@@ -34,7 +38,9 @@ const RecommendedSearch: React.FC<RecommendationsProps> = ({ recommendations }) 
 
   // 아래쪽 화살표 키를 누를 때 다음 항목 선택
   useEffect(() => {
-    if (downArrowPressed) {
+    if (downArrowPressed && selectedItem === -1) {
+      setSelectedItem(0);
+    } else if (downArrowPressed) {
       setSelectedItem(prevIndex =>
         prevIndex === -1 ? 0 : Math.min(prevIndex + 1, recommendations.length - 1),
       );
