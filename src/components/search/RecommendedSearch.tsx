@@ -2,6 +2,7 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import { useDebouncedSearch } from '../../context/DebouncedSearchContext';
 import useKeyPress from '../../hooks/useKeyPress';
 import { StyledRecommendedSearch } from '../../styles/RecommendedStyle';
+import { BiSearch } from 'react-icons/bi';
 
 interface RecommendationsProps {
   recommendations: string[];
@@ -86,6 +87,13 @@ const RecommendedSearch: React.FC<RecommendationsProps> = ({ recommendations }) 
               onClick={() => handleSelectItem(index)}
               onMouseOver={() => setSelectedItem(index)}
             >
+              <BiSearch
+								style={{
+									marginRight: '2px',
+									textAlign: 'center',
+									color: 'gray',
+								}}
+							/>
               {highlightText(recommendation)}
             </li>
           ))}
