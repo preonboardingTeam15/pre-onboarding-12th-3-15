@@ -13,6 +13,7 @@ export const useFetchFromCache = (initialUseCache: boolean) => {
     const cachedResult = await localCache.readFromCache(keyword);
 
     if (cachedResult && cachedResult.length) {
+      console.log('캐시로 반환된 값');
       setUseCache(true);
       return { response: cachedResult };
     }
