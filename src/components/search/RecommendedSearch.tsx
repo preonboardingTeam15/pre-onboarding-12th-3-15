@@ -88,12 +88,12 @@ const RecommendedSearch: React.FC<RecommendationsProps> = ({ recommendations }) 
               onMouseOver={() => setSelectedItem(index)}
             >
               <BiSearch
-                style={{
-                  marginRight: '2px',
-                  textAlign: 'center',
-                  color: 'gray',
-                }}
-              />
+								style={{
+									marginRight: '2px',
+									textAlign: 'center',
+									color: 'gray',
+								}}
+							/>
               {highlightText(recommendation)}
             </li>
           ))}
