@@ -38,8 +38,5 @@ export class SearchSickList {
     } catch (error) {
       throw error;
     }
-    // finally {
-    //   console.info('calling api');
-    // }
   }
 }
