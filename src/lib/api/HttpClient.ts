@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-const SICK_URL = process.env.REACT_APP_BASE_URL;
+const SICK_URL = 'https://sick-api-preonboarding15.vercel.app/';
 
 interface HttpClientInterface {
   getData(endpoint: string, options?: AxiosRequestConfig): Promise<AxiosResponse>;
