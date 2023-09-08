@@ -1,19 +1,20 @@
 import React, { useRef, useState, useCallback, useEffect } from 'react';
+import { useDebouncedSearch } from '../../context/DebouncedSearchContext';
 import useKeyPress from '../../hooks/useKeyPress';
 import { StyledRecommendedSearch } from '../../styles/RecommendedStyle';
 
 interface RecommendationsProps {
   recommendations: string[];
-  highlightText: (text: string) => React.ReactNode;
 }
 
-const RecommendedSearch: React.FC<RecommendationsProps> = ({ recommendations, highlightText }) => {
+const RecommendedSearch: React.FC<RecommendationsProps> = ({ recommendations }) => {
   // 현재 선택된 자동완성 인덱스
   const [selectedItem, setSelectedItem] = useState<number>(-1);
   // 자동완성목록 컨테이너 요소
   const listRef = useRef<HTMLUListElement>(null);
   const upArrowPressed = useKeyPress('ArrowUp');
   const downArrowPressed = useKeyPress('ArrowDown');
+  const { query, debouncedQuery } = useDebouncedSearch();
 
   const handleSelectItem = useCallback(
     (index: number) => {
@@ -39,6 +40,23 @@ const RecommendedSearch: React.FC<RecommendationsProps> = ({ recommendations, hi
       );
     }
   }, [downArrowPressed, recommendations.length]);
+
+  const highlightText = (text: string) => {
+    const parts = text.split(new RegExp(`(${debouncedQuery})`, 'giu'));
+    return (
+      <>
+        {parts.map((part, index) =>
+          part.toLowerCase() === query.toLowerCase() ? (
+            <strong style={{ color: 'hotpink' }} key={index}>
+              {part}
+            </strong>
+          ) : (
+            part
+          ),
+        )}
+      </>
+    );
+  };
 
   return (
     <StyledRecommendedSearch>

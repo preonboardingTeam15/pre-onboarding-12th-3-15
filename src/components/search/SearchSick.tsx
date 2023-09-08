@@ -88,23 +88,6 @@ const SearchSick = ({ useCache: initialUseCache }: SearchSickProps) => {
     setQuery('');
   };
 
-  const highlightText = (text: string) => {
-    const parts = text.split(new RegExp(`(${debouncedQuery})`, 'giu'));
-    return (
-      <>
-        {parts.map((part, index) =>
-          part.toLowerCase() === query.toLowerCase() ? (
-            <strong style={{ color: 'hotpink' }} key={index}>
-              {part}
-            </strong>
-          ) : (
-            part
-          ),
-        )}
-      </>
-    );
-  };
-
   useEffect(() => {
     handleSearch();
   }, [handleSearch]);
@@ -134,7 +117,6 @@ const SearchSick = ({ useCache: initialUseCache }: SearchSickProps) => {
                 ? filteredSickList.response.map(sick => sick.sickNm).slice(0, RECOMMENDATION_NUMBER)
                 : []
             }
-            highlightText={highlightText}
           />
         </RecommendedContainer>
       )}
