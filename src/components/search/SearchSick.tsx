@@ -50,7 +50,7 @@ const SearchSick = ({ useCache: initialUseCache }: SearchSickProps) => {
     return null;
   };
 
-  const fetchFromAPI = async (keyword: string) => {
+  const fetchFromAPI = async (keyword: string, useCache: boolean) => {
     const searchSickList = new SearchSickList(httpClient);
 
     try {
@@ -62,22 +62,17 @@ const SearchSick = ({ useCache: initialUseCache }: SearchSickProps) => {
     }
   };
 
-  const handleSearch = useCallback(async () => {
+  useEffect(() => {
     if (!debouncedQuery || !debouncedQuery.length) return;
-
-    const cachedData = await fetchFromCache(debouncedQuery);
-
-    if (cachedData) {
-      setSickList(cachedData);
-      return;
-    }
-
-    const apiData = await fetchFromAPI(debouncedQuery);
-
-    if (apiData) {
-      setSickList(apiData);
-    }
-  }, [debouncedQuery]);
+    const fetchData = async () => {
+      let data = await fetchFromCache(debouncedQuery);
+      if (!data) {
+        data = await fetchFromAPI(debouncedQuery, useCache);
+      }
+      setSickList(data);
+    };
+    fetchData();
+  }, [debouncedQuery, useCache]);
 
   const closeSearch = () => {
     setIsSearchOpen(false);
@@ -87,10 +82,6 @@ const SearchSick = ({ useCache: initialUseCache }: SearchSickProps) => {
     setIsSearchOpen(false);
     setQuery('');
   };
-
-  useEffect(() => {
-    handleSearch();
-  }, [handleSearch]);
 
   useOutsideClick({
     ref: searchRef,
