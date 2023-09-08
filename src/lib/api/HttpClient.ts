@@ -17,6 +17,7 @@ export class HttpClient implements HttpClientInterface {
     try {
       const response = await axios.get(`${this.#baseURL}${endpoint}`, {
         ...options,
+        params: { q: options.params?.query },
         headers: {
           'Content-Type': 'application/json',
           ...options.headers,
