@@ -42,29 +42,46 @@ const SearchSick = ({ useCache: initialUseCache }: SearchSickProps) => {
       : null
     : null;
 
-  const handleSearch = useCallback(async () => {
-    const searchSickList = new SearchSickList(httpClient);
-    if (debouncedQuery && debouncedQuery.length) {
-      try {
-        const cachedResult = await localCache.readFromCache(debouncedQuery);
+  const fetchFromCache = async (keyword: string) => {
+    const cachedResult = await localCache.readFromCache(keyword);
 
-        // 캐시 스토리지에 데이터가 있다면 useCache를 true로 설정
-        if (cachedResult && cachedResult.length) {
-          setUseCache(true);
-          setSickList({ response: cachedResult });
-          return;
-        } else {
-          setUseCache(false);
-        }
-
-        // 없으면 캐시 스토리지에 저장
-        const result = await searchSickList.getSickList(debouncedQuery, useCache);
-        setSickList(result);
-      } catch (error) {
-        console.error('API 호출 오류:', error);
-      }
+    if (cachedResult && cachedResult.length) {
+      setUseCache(true);
+      return { response: cachedResult };
     }
-  }, [debouncedQuery, useCache]);
+
+    setUseCache(false);
+    return null;
+  };
+
+  const fetchFromAPI = async (keyword: string) => {
+    const searchSickList = new SearchSickList(httpClient);
+
+    try {
+      const result = await searchSickList.getSickList(keyword, useCache);
+      return result;
+    } catch (error) {
+      console.error('API 호출 오류:', error);
+      return null;
+    }
+  };
+
+  const handleSearch = useCallback(async () => {
+    if (!debouncedQuery || !debouncedQuery.length) return;
+
+    const cachedData = await fetchFromCache(debouncedQuery);
+
+    if (cachedData) {
+      setSickList(cachedData);
+      return;
+    }
+
+    const apiData = await fetchFromAPI(debouncedQuery);
+
+    if (apiData) {
+      setSickList(apiData);
+    }
+  }, [debouncedQuery]);
 
   const closeSearch = () => {
     setIsSearchOpen(false);
