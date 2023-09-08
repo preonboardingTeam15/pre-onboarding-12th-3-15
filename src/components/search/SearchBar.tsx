@@ -10,22 +10,21 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = React.memo(({ query, setQuery, onClick }) => {
+  const { tempQuery, setTempQuery } = useDebouncedSearch();
   const memoizedHandleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setQuery(e.target.value);
+      setTempQuery('');
     },
-    [setQuery],
+    [setQuery, setTempQuery],
   );
-  const { tempQuery, setTempQuery } = useDebouncedSearch();
+
   const escPressed = useKeyPress('Escape');
 
   useEffect(() => {
     if (escPressed) {
-      if (tempQuery) {
-        setTempQuery('');
-      } else {
-        setQuery('');
-      }
+      setTempQuery('');
+      setQuery('');
     }
   }, [escPressed, tempQuery]);
 
