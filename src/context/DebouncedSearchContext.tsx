@@ -24,6 +24,9 @@ interface DebouncedSearchProviderProps {
   children: ReactNode;
 }
 
+//자음 모음 검사를 위한 정규식
+const testWord = /[ㄱ-ㅎㅏ-ㅣ]/;
+
 export const DebouncedSearchProvider: React.FC<DebouncedSearchProviderProps> = ({ children }) => {
   // 상태와 디바운스 타이머 설정
   const [query, setQuery] = useState('');
@@ -32,7 +35,8 @@ export const DebouncedSearchProvider: React.FC<DebouncedSearchProviderProps> = (
   useEffect(() => {
     // 디바운스 타이머 설정
     const debounceTimer = setTimeout(() => {
-      setDebouncedQuery(query);
+      if (testWord.test(query)) setDebouncedQuery('');
+      else setDebouncedQuery(query);
     }, 350);
 
     // 컴포넌트가 언마운트될 때 타이머 해제
